@@ -57,17 +57,31 @@ input[type="text"] {
     background: #fffafa;
 }
 
-.options-group { display: flex; justify-content: space-between; gap: 8px; margin-top: 20px; }
-
-.option-label {
-    flex: 1; padding: 15px 5px; border: 2px solid #ff7675;
-    border-radius: 10px; cursor: pointer; text-align: center;
-    font-size: 0.9rem; transition: 0.2s; background: white;
+.options-group { 
+    display: flex; 
+    flex-direction: column; /* เปลี่ยนจากแนวนอนเป็นแนวตั้ง */
+    gap: 10px; 
+    margin-top: 20px; 
 }
 
-input[type="radio"]:checked + .option-label {
-    background: var(--primary); color: white; border-color: var(--primary);
-    transform: scale(1.05); font-weight: bold;
+.option-label {
+    width: 100%; /* ให้ปุ่มยาวเต็มจอโทรศัพท์ */
+    padding: 15px; 
+    border: 2px solid #ff7675;
+    border-radius: 12px; 
+    cursor: pointer; 
+    text-align: center;
+    font-size: 1rem; 
+    transition: 0.2s; 
+    background: white;
+    display: block; /* มั่นใจว่าเป็นกล่องข้อความ */
+}
+
+/* ปรับขนาดตัวอักษรใน Card ให้เล็กลงนิดหน่อยสำหรับจอเล็ก */
+@media (max-width: 480px) {
+    .card { padding: 20px; }
+    header { padding: 40px 15px; }
+    header h1 { font-size: 1.8rem; }
 }
 
 button {
@@ -86,3 +100,4 @@ button {
     border-left: 6px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 .res-box h4 { color: var(--primary); margin: 0 0 10px 0; font-size: 1.1rem; }
+
