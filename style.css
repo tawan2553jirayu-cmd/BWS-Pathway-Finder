@@ -114,4 +114,35 @@ button {
     border-left: 6px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 .res-box h4 { color: var(--primary); margin: 0 0 10px 0; font-size: 1.1rem; }
+/* ซ่อนวงกลม Radio เดิม */
+.options-group input[type="radio"] {
+    display: none;
+}
 
+/* ปรับแต่ง Label ให้ดูเป็นปุ่มกดที่ชัดเจน */
+.option-label {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 8px;
+    border: 2px solid #ff7675;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+/* เมื่อกดเลือกปุ่มจะเปลี่ยนสี */
+.options-group input[type="radio"]:checked + .option-label {
+    background-color: #d63031;
+    color: white;
+    border-color: #d63031;
+    transform: scale(1.02);
+}
+
+.q-text {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
