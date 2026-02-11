@@ -1,26 +1,26 @@
-// 1. ข้อมูลสายการเรียน (18 สาย) แยกตามกลุ่ม
+// 1. ฐานข้อมูล 18 สาย (เน้น Keys ที่ใช้คำนวณให้สมดุล)
 const tracksData = {
-    'S_EXCEL': { name: 'วิทย์-คณิต (ความเป็นเลิศ)', why: 'คะแนนวิชาการคุณสมดุลและสูงทุกด้าน', focus: 'ฟิสิกส์, เคมี, ชีววิทยา, คณิตขั้นสูง', university: 'แพทย์, ทันตะ, เภสัช', careers: 'หมอ, นักวิจัย' },
-    'S_POWER10': { name: 'วิทย์-คณิต (พลังสิบ)', why: 'คุณชอบการทดลองและเรียนรู้ผ่านโครงงาน', focus: 'วิทย์ประยุกต์, โครงงาน', university: 'คณะวิทยาศาสตร์, เทคโนโลยี', careers: 'นักวิทยาศาสตร์, นวัตกร' },
-    'S_ENG': { name: 'วิทย์-คณิต (เตรียมวิศวะ)', why: 'คุณมีหัวใจนักประดิษฐ์ ชอบคำนวณและลงมือทำ', focus: 'ฟิสิกส์, พื้นฐานวิศวะ', university: 'วิศวกรรมศาสตร์', careers: 'วิศวกร, สถาปนิก' },
-    'S_HEALTH': { name: 'วิทย์-คณิต (เตรียมสุขภาพ)', why: 'คุณละเอียดรอบคอบและใส่ใจสิ่งมีชีวิต', focus: 'ชีววิทยา, เคมี', university: 'พยาบาล, เทคนิคการแพทย์', careers: 'พยาบาล, สาธารณสุข' },
-    'G_COM': { name: 'ห้องเรียนพิเศษ (คอมพิวเตอร์/AI)', why: 'คุณมีตรรกะดีเยี่ยมและชอบเทคโนโลยี', focus: 'Coding, AI, คณิต', university: 'วิศวะคอม, IT', careers: 'Programmer, Data Scientist' },
-    'A_ENG_MATH': { name: 'อังกฤษ-คณิต (ศิลป์คำนวณ)', why: 'คุณชอบตัวเลขธุรกิจและการสื่อสารระหว่างประเทศ', focus: 'อังกฤษธุรกิจ, คณิต 2', university: 'บริหาร, บัญชี', careers: 'นักธุรกิจ, การตลาด' },
-    'A_ACCOUNT': { name: 'ศิลปศาสตร์ (เตรียมบัญชี)', why: 'คุณเป็นคนเจ้าระเบียบและแม่นยำเรื่องตัวเลข', focus: 'บัญชี, การเงิน', university: 'บัญชี, เศรษฐศาสตร์', careers: 'ผู้ตรวจสอบบัญชี' },
-    'A_LAW': { name: 'นิติศาสตร์-รัฐศาสตร์', why: 'คุณมีหลักการและชอบวิเคราะห์สังคม', focus: 'กฎหมาย, การเมือง', university: 'นิติศาสตร์, รัฐศาสตร์', careers: 'ทนาย, อัยการ' },
-    'A_POLI': { name: 'สังคมศาสตร์ (ความสัมพันธ์ฯ)', why: 'คุณสนใจโลกกว้างและชอบการติดต่อผู้คน', focus: 'ประวัติศาสตร์, สังคม', university: 'รัฐศาสตร์, อักษร', careers: 'นักการทูต' },
-    'A_LANG_CN': { name: 'ศิลปศาสตร์ (ภาษาจีน)', why: 'คุณสนใจภาษาจีนและโอกาสการค้า', focus: 'ภาษาจีน, วัฒนธรรม', university: 'มนุษยศาสตร์ (จีน)', careers: 'ล่าม, ธุรกิจจีน' },
-    'A_LANG_JP': { name: 'ศิลปศาสตร์ (ภาษาญี่ปุ่น)', why: 'คุณชอบวัฒนธรรมญี่ปุ่นและความละเอียดอ่อน', focus: 'ภาษาญี่ปุ่น', university: 'มนุษยศาสตร์ (ญี่ปุ่น)', careers: 'ล่าม, บริษัทญี่ปุ่น' },
-    'A_HOSPITALITY': { name: 'การโรงแรม/ท่องเที่ยว', why: 'คุณรักงานบริการและมีมนุษยสัมพันธ์ดีเยี่ยม', focus: 'งานบริการ, ภาษา', university: 'การท่องเที่ยว', careers: 'แอร์โฮสเตส, ไกด์' },
-    'A_COMM_ART': { name: 'นิเทศศาสตร์', why: 'คุณมีความคิดสร้างสรรค์และกล้าแสดงออก', focus: 'การสื่อสาร, สื่อ', university: 'นิเทศศาสตร์', careers: 'YouTuber, ครีเอทีฟ' },
-    'A_DESIGN': { name: 'สถาปัตย์-การออกแบบ', why: 'คุณมีหัวศิลปะและมองภาพโครงสร้างเก่ง', focus: 'วาดเส้น, ออกแบบ', university: 'สถาปัตย์, มัณฑนศิลป์', careers: 'Designer, สถาปนิก' },
-    'A_FINE_ART': { name: 'วิจิตรศิลป์', why: 'คุณมีอารมณ์ศิลปินและรักความสวยงาม', focus: 'ศิลปะบริสุทธิ์', university: 'วิจิตรศิลป์', careers: 'ศิลปิน, ครูศิลปะ' },
-    'A_MUSIC': { name: 'ดุริยางคศิลป์', why: 'ดนตรีคือชีวิตจิตใจของคุณ', focus: 'ดนตรี, ปฏิบัติ', university: 'ดุริยางคศิลป์', careers: 'นักดนตรี' },
-    'A_SPORTS': { name: 'เตรียมพลศึกษา', why: 'คุณรักสุขภาพและการเคลื่อนไหว', focus: 'พละ, วิทย์กีฬา', university: 'ศึกษาศาสตร์ (พละ)', careers: 'นักกีฬา, โค้ช' },
-    'G_GENERAL': { name: 'ศิลปศาสตร์ทั่วไป', why: 'คุณชอบเรียนรู้กว้างๆ หลากหลายด้าน', focus: 'พื้นฐานทั่วไป', university: 'มนุษยศาสตร์', careers: 'ธุรกิจส่วนตัว' }
+    'S_EXCEL': { name: 'วิทย์-คณิต (ความเป็นเลิศ)', why: 'คุณเด่นทั้งวิทย์และคณิตในระดับวิชาการเข้มข้น', focus: 'ฟิสิกส์, เคมี, ชีวะ, คณิตสูง', university: 'สายแพทย์ / วิศวะ / วิทยาศาสตร์', careers: 'หมอ, นักวิจัย', keys: ['science', 'math', 'logic'] },
+    'S_POWER10': { name: 'วิทย์-คณิต (พลังสิบ)', why: 'คุณชอบวิทย์ที่เน้นการลงมือทำโครงงาน', focus: 'วิทย์ประยุกต์, โครงงาน', university: 'คณะวิทยาศาสตร์, นวัตกรรม', careers: 'นักวิทยาศาสตร์', keys: ['science', 'active'] },
+    'S_ENG': { name: 'วิทย์-คณิต (เตรียมวิศวะ)', why: 'คุณเก่งคำนวณและชอบงานเชิงช่าง', focus: 'ฟิสิกส์, พื้นฐานวิศวะ', university: 'วิศวกรรมศาสตร์', careers: 'วิศวกร', keys: ['math', 'active'] },
+    'S_HEALTH': { name: 'วิทย์-คณิต (เตรียมสุขภาพ)', why: 'คุณสนใจวิทยาศาสตร์สุขภาพและมีความละเอียด', focus: 'ชีววิทยา, สุขศึกษา', university: 'พยาบาล, เทคนิคการแพทย์', careers: 'พยาบาล, เภสัช', keys: ['science', 'detail'] },
+    'G_COM': { name: 'ห้องเรียนพิเศษ (คอมพิวเตอร์/AI)', why: 'คุณมีตรรกะเป็นระบบและชอบเทคโนโลยี', focus: 'Coding, AI, ตรรกศาสตร์', university: 'วิศวะคอม, IT', careers: 'Programmer', keys: ['logic', 'creative'] },
+    'A_ENG_MATH': { name: 'อังกฤษ-คณิต (ศิลป์คำนวณ)', why: 'คุณชอบภาษาและมีความเข้าใจด้านตัวเลข', focus: 'ภาษาอังกฤษ, คณิตธุรกิจ', university: 'บริหารธุรกิจ, เศรษฐศาสตร์', careers: 'นักการตลาด', keys: ['lang', 'math'] },
+    'A_ACCOUNT': { name: 'ศิลปศาสตร์ (เตรียมบัญชี)', why: 'คุณละเอียดรอบคอบและจัดการตัวเลขเก่ง', focus: 'บัญชี, การจัดการ', university: 'คณะบัญชี', careers: 'สมุห์บัญชี', keys: ['detail', 'math'] },
+    'A_LAW': { name: 'นิติศาสตร์-รัฐศาสตร์', why: 'คุณรักความยุติธรรมและมีเหตุผลโต้แย้งดี', focus: 'กฎหมาย, สังคมศาสตร์', university: 'นิติศาสตร์, รัฐศาสตร์', careers: 'ทนาย, อัยการ', keys: ['logic', 'social'] },
+    'A_POLI': { name: 'สังคมศาสตร์ (ความสัมพันธ์ฯ)', why: 'คุณสนใจข่าวสารโลกและมนุษยสัมพันธ์ดี', focus: 'ประวัติศาสตร์, สังคม', university: 'รัฐศาสตร์, อักษร', careers: 'นักการทูต', keys: ['social', 'lang'] },
+    'A_LANG_CN': { name: 'ศิลปศาสตร์ (ภาษาจีน)', why: 'คุณสนใจภาษาและวัฒนธรรมจีน', focus: 'ภาษาจีน, วัฒนธรรม', university: 'มนุษยศาสตร์ (จีน)', careers: 'ล่าม, ธุรกิจจีน', keys: ['lang', 'detail'] },
+    'A_LANG_JP': { name: 'ศิลปศาสตร์ (ภาษาญี่ปุ่น)', why: 'คุณชื่นชอบความละเอียดอ่อนของภาษาญี่ปุ่น', focus: 'ภาษาญี่ปุ่น', university: 'มนุษยศาสตร์ (ญี่ปุ่น)', careers: 'ล่าม, บริษัทญี่ปุ่น', keys: ['lang', 'creative'] },
+    'A_HOSPITALITY': { name: 'การโรงแรม/ท่องเที่ยว', why: 'คุณชอบบริการและได้ใช้ภาษาสื่อสาร', focus: 'การบริการ, ภาษา', university: 'การโรงแรม', careers: 'แอร์โฮสเตส', keys: ['social', 'active'] },
+    'A_COMM_ART': { name: 'นิเทศศาสตร์', why: 'คุณสื่อสารเก่งและมีความคิดสร้างสรรค์', focus: 'การสื่อสาร, สื่อดิจิทัล', university: 'นิเทศศาสตร์', careers: 'Creator', keys: ['creative', 'social'] },
+    'A_DESIGN': { name: 'สถาปัตย์-การออกแบบ', why: 'คุณมีความคิดเชิงภาพและชอบออกแบบ', focus: 'วาดเส้น, การออกแบบ', university: 'สถาปัตย์', careers: 'Designer', keys: ['creative', 'math'] },
+    'A_FINE_ART': { name: 'วิจิตรศิลป์', why: 'คุณมีอารมณ์ศิลปินและรักงานศิลปะ', focus: 'ศิลปกรรม', university: 'วิจิตรศิลป์', careers: 'ศิลปิน', keys: ['creative', 'active'] },
+    'A_MUSIC': { name: 'ดุริยางคศิลป์', why: 'คุณมีใจรักและพรสวรรค์ด้านดนตรี', focus: 'ดนตรี, การฟัง', university: 'ดุริยางคศิลป์', careers: 'นักดนตรี', keys: ['creative', 'detail'] },
+    'A_SPORTS': { name: 'เตรียมพลศึกษา', why: 'คุณรักสุขภาพและชอบความท้าทายทางร่างกาย', focus: 'พละ, วิทย์กีฬา', university: 'ครูพละ', careers: 'นักกีฬา, โค้ช', keys: ['active', 'detail'] },
+    'G_GENERAL': { name: 'ศิลปศาสตร์ทั่วไป', why: 'คุณชอบเรียนรู้แบบองค์รวมหลายด้าน', focus: 'วิชาพื้นฐานทั่วไป', university: 'คณะทั่วไป', careers: 'ธุรกิจส่วนตัว', keys: ['social', 'logic', 'lang'] }
 };
 
-// 2. รายการคำถาม (ลบตัวเลขนำหน้าออกแล้ว)
+// 2. รายการคำถาม (ลบเลขซ้ำออกถาวร)
 const questions = [
     { q: "สนุกกับการแก้โจทย์เลข หรือสมการยากๆ", k: ['math', 'logic'] },
     { q: "ชอบทำการทดลอง หรือสงสัยว่าสิ่งต่างๆ ทำงานยังไง", k: ['science'] },
@@ -32,7 +32,6 @@ const questions = [
     { q: "ชอบคอมพิวเตอร์ เขียนโค้ด หรือตัดต่อวิดีโอ", k: ['logic', 'creative'] }
 ];
 
-// ฟังก์ชันแสดงคำถาม
 function renderQuestions() {
     const container = document.getElementById('quiz-container');
     container.innerHTML = "";
@@ -57,67 +56,55 @@ function renderQuestions() {
     }
 }
 
-// ระบบคำนวณ 2 ชั้น (Logic เดิมที่แม่นยำที่สุด)
+// 3. ระบบคำนวณแบบ "เฉลี่ยความเข้ากัน" (จบปัญหาสายล็อค)
 document.getElementById('submit-btn').onclick = () => {
     const checked = document.querySelectorAll('input[type="radio"]:checked');
-    if(checked.length < 40) return alert(`กรุณาตอบให้ครบ (เหลือ ${40 - checked.length} ข้อ)`);
+    if(checked.length < 40) return alert(`กรุณาตอบให้ครบทุกข้อครับ`);
 
+    // 3.1 สรุปคะแนนดิบรายทักษะ
     let s = { math:0, science:0, logic:0, lang:0, social:0, creative:0, active:0, detail:0 };
-    for(let i=1; i<=40; i++) {
-        const val = parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);
-        const keys = questions[(i-1) % questions.length].k;
-        keys.forEach(k => { s[k] += val; });
+    checked.forEach(input => {
+        const qIdx = parseInt(input.name.substring(1)) - 1;
+        const keys = questions[qIdx % questions.length].k;
+        keys.forEach(k => { s[k] += parseInt(input.value); });
+    });
+
+    // 3.2 คำนวณหา "คะแนนเฉลี่ย" ของแต่ละสายจากทักษะที่เกี่ยวข้อง
+    let highestMatch = -1;
+    let finalTrackKey = '';
+
+    for (let trackKey in tracksData) {
+        let track = tracksData[trackKey];
+        let totalSkillScore = 0;
+        
+        // บวกคะแนนเฉพาะทักษะที่สายนี้ระบุไว้
+        track.keys.forEach(k => { totalSkillScore += s[k]; });
+
+        // หาค่าเฉลี่ย (คะแนนรวม / จำนวนทักษะ) 
+        // จุดนี้สำคัญมาก! เพราะจะทำให้สายที่มี 2 ทักษะ กับ 3 ทักษะ มีความสำคัญเท่ากัน
+        let averageMatch = totalSkillScore / track.keys.length;
+
+        // เพิ่ม Jitter (เลขสุ่มน้อยมาก) เพื่อป้องกันกรณีคะแนนเท่ากันเป๊ะแล้วระบบเลือกสายเดิมซ้ำๆ
+        let scoreWithJitter = averageMatch + (Math.random() * 0.01);
+
+        if (scoreWithJitter > highestMatch) {
+            highestMatch = scoreWithJitter;
+            finalTrackKey = trackKey;
+        }
     }
 
-    // ตัดสินกลุ่มหลัก
-    let scoreSci = s.science + s.math + s.logic;
-    let scoreMathArt = s.math + s.lang + s.detail;
-    let scoreLangSoc = s.lang + s.social + (s.lang * 0.5);
-    let scoreCreative = s.creative + s.active + (s.creative * 0.5);
-
-    let winnerGroup = 'SCIENCE';
-    let maxScore = scoreSci;
-    if (scoreMathArt > maxScore) { maxScore = scoreMathArt; winnerGroup = 'MATH_ART'; }
-    if (scoreLangSoc > maxScore) { maxScore = scoreLangSoc; winnerGroup = 'LANG_SOC'; }
-    if (scoreCreative > maxScore) { maxScore = scoreCreative; winnerGroup = 'CREATIVE'; }
-
-    // เจาะลึกสายย่อย
-    let finalTrack = '';
-    if (winnerGroup === 'SCIENCE') {
-        if (s.logic >= 18 && s.creative >= 15) finalTrack = 'G_COM';
-        else if (s.active >= s.detail && s.math >= 15) finalTrack = 'S_ENG';
-        else if (s.detail > s.active && s.science >= 15) finalTrack = 'S_HEALTH';
-        else if (s.active >= 18) finalTrack = 'S_POWER10';
-        else finalTrack = 'S_EXCEL';
-    } 
-    else if (winnerGroup === 'MATH_ART') {
-        finalTrack = (s.detail > s.lang) ? 'A_ACCOUNT' : 'A_ENG_MATH';
-    }
-    else if (winnerGroup === 'LANG_SOC') {
-        if (s.logic >= 15) finalTrack = 'A_LAW';
-        else if (s.active >= 15) finalTrack = 'A_HOSPITALITY';
-        else if (s.lang >= 20) finalTrack = (s.detail > 10) ? 'A_LANG_JP' : 'A_LANG_CN';
-        else finalTrack = 'A_POLI';
-    }
-    else {
-        if (s.math >= 10 && s.creative >= 15) finalTrack = 'A_DESIGN';
-        else if (s.active >= 18) finalTrack = 'A_SPORTS';
-        else if (s.detail >= 15 && s.creative >= 15) finalTrack = 'A_MUSIC';
-        else if (s.social >= 15) finalTrack = 'A_COMM_ART';
-        else finalTrack = 'A_FINE_ART';
-    }
-
-    showResult(tracksData[finalTrack]);
+    showResult(tracksData[finalTrackKey]);
 };
 
-// ฟังก์ชันเริ่มและแสดงผล (คงเดิม)
+// ฟังก์ชันเริ่มและแสดงผล
 document.getElementById('start-btn').onclick = () => {
     const name = document.getElementById('student-name').value;
-    if(!name) return alert("กรุณากรอกชื่อก่อนเริ่มครับ");
+    if(!name) return alert("กรุณากรอกชื่อก่อนเริ่ม");
     localStorage.setItem('user_name', name);
     document.getElementById('welcome-section').classList.remove('active');
     document.getElementById('quiz-section').classList.add('active');
     renderQuestions();
+    window.scrollTo(0,0);
 };
 
 function showResult(data) {
