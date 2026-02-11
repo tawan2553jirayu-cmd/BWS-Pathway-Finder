@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แบบทดสอบช่วยในการเลือกสายการเรียน - BWS Pathway Finder</title>
+    <title>BWS Compass: แบบทดสอบช่วยในการเลือกสายการเรียน</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="progress-bar" id="progress-bar"></div>
 
     <header>
-        <h1>BWS Pathway Finder</h1>
-        <p>ระบบวิเคราะห์แผนการเรียนอัจฉริยะเพื่ออนาคต</p>
+        <h1>BWS Compass</h1>
+        <p>แบบทดสอบช่วยในการเลือกสายการเรียนอัตโนมัติ (โครงงาน IS)</p>
     </header>
 
     <div class="container">
         <section id="welcome-section" class="card active">
-            <h2>ค้นหาสายการเรียนที่ใช่สำหรับคุณ</h2>
-            <p class="subtitle">วิเคราะห์จากความถนัด ทักษะ และความชอบส่วนบุคคล</p>
+            <h2>ค้นหาเส้นทางที่ใช่ใน BWS</h2>
+            <p class="subtitle">วิเคราะห์ทักษะและความชอบเพื่อเลือกสายการเรียนที่เหมาะสมที่สุด</p>
             <div class="input-group">
-                <label for="student-name">ชื่อ-นามสกุลผู้ทดสอบ</label>
-                <input type="text" id="student-name" placeholder="กรอกชื่อของคุณที่นี่..." autocomplete="off">
+                <label for="student-name">ชื่อ-นามสกุลของคุณ</label>
+                <input type="text" id="student-name" placeholder="กรอกชื่อเพื่อเริ่มทำแบบทดสอบ..." autocomplete="off">
             </div>
             <button id="start-btn" class="btn-primary">เริ่มต้นแบบทดสอบ</button>
         </section>
@@ -28,20 +28,20 @@
         <section id="quiz-section" class="card">
             <div id="quiz-container">
                 </div>
-            <button id="submit-btn" class="btn-success">วิเคราะห์ผลลัพธ์</button>
+            <button id="submit-btn" class="btn-success">ประมวลผลลัพธ์</button>
         </section>
 
         <section id="results-section" class="card">
             <div class="result-header">
-                <h3>ยินดีด้วย! <span id="res-name"></span></h3>
-                <p>จากการวิเคราะห์ 40 ตัวบ่งชี้ สายการเรียนที่เหมาะกับคุณที่สุดคือ:</p>
-                <h1 id="res-track-name">ชื่อสายการเรียน</h1>
+                <h3>ผลการวิเคราะห์สำหรับคุณ: <span id="res-name"></span></h3>
+                <p>สายการเรียนที่ระบบแนะนำคือ:</p>
+                <h1 id="res-track-name" class="highlight-text">กำลังประมวลผล...</h1>
             </div>
             
             <div id="res-details" class="res-grid">
                 </div>
 
-            <button onclick="location.reload()" class="btn-outline">ทำแบบทดสอบอีกครั้ง</button>
+            <button onclick="location.reload()" class="btn-outline">ทำแบบทดสอบใหม่อีกครั้ง</button>
         </section>
     </div>
 
