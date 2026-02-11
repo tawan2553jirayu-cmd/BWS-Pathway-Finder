@@ -57,31 +57,45 @@ input[type="text"] {
     background: #fffafa;
 }
 
+/* --- สำหรับหน้าจอคอมพิวเตอร์ (Default) --- */
 .options-group { 
     display: flex; 
-    flex-direction: column; /* เปลี่ยนจากแนวนอนเป็นแนวตั้ง */
+    justify-content: space-between; 
     gap: 10px; 
     margin-top: 20px; 
 }
 
 .option-label {
-    width: 100%; /* ให้ปุ่มยาวเต็มจอโทรศัพท์ */
-    padding: 15px; 
+    flex: 1; 
+    padding: 15px 5px; 
     border: 2px solid #ff7675;
-    border-radius: 12px; 
+    border-radius: 10px; 
     cursor: pointer; 
     text-align: center;
-    font-size: 1rem; 
+    font-size: 0.9rem; 
     transition: 0.2s; 
     background: white;
-    display: block; /* มั่นใจว่าเป็นกล่องข้อความ */
 }
 
-/* ปรับขนาดตัวอักษรใน Card ให้เล็กลงนิดหน่อยสำหรับจอเล็ก */
-@media (max-width: 480px) {
-    .card { padding: 20px; }
-    header { padding: 40px 15px; }
-    header h1 { font-size: 1.8rem; }
+/* --- สำหรับหน้าจอโทรศัพท์ (ขนาดหน้าจอไม่เกิน 600px) --- */
+@media (max-width: 600px) {
+    .options-group { 
+        flex-direction: column; /* เปลี่ยนเป็นแนวตั้งเฉพาะในมือถือ */
+        gap: 8px; 
+    }
+
+    .option-label {
+        width: 100%; 
+        padding: 12px; 
+        font-size: 1rem; /* เพิ่มขนาดตัวอักษรให้กดง่ายขึ้น */
+        text-align: left; /* จัดข้อความชิดซ้าย */
+        padding-left: 20px;
+    }
+    
+    /* ซ่อนวงกลม Radio เดิมเพื่อความคลีนในมือถือ (ถ้าต้องการ) */
+    .question-item b {
+        font-size: 1.1rem;
+    }
 }
 
 button {
