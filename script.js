@@ -65,31 +65,77 @@ function renderQuestions() {
 
 document.getElementById('submit-btn').onclick = () => {
     const checked = document.querySelectorAll('input[type="radio"]:checked');
-    if(checked.length < 40) return alert("ตอบให้ครบทุกข้อก่อนนะ (เหลืออีก "+(40-checked.length)+" ข้อ)");
+    if(checked.length < 40) return alert("กรุณาตอบให้ครบทุกข้อก่อนครับ");
     
     document.getElementById('progress-bar').style.width = '100%';
     
+    // 1. เก็บคะแนนดิบแยกตามทักษะ
     let scores = { math:0, science:0, logic:0, lang:0, social:0, creative:0, active:0, detail:0 };
-    let totalAll = 0;
+    let totalRaw = 0;
 
     for(let i=1; i<=40; i++) {
-        const val = parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);
-        totalAll += val;
+        const input = document.querySelector(`input[name="q${i}"]:checked`);
+        const val = parseInt(input.value);
+        totalRaw += val;
         const keys = questions[(i-1) % questions.length].k;
         keys.forEach(k => { if(scores[k] !== undefined) scores[k] += val; });
     }
 
-    if(totalAll <= 55) { // ป้องกันคนตอบ 1 ทุกข้อแล้วสุ่มมั่ว
-        return showResults({ name: 'ยังไม่พบสายที่แน่ชัด', why: 'ความสนใจของคุณยังกระจายตัวมากเกินไป', focus: 'ปรึกษาครูแนะแนวเพิ่มเติม', university: '-', careers: '-' });
+    // 2. ป้องกันคนตอบต่ำเกินไป (ตอบ 1 หรือ 2 เกือบหมด)
+    if(totalRaw <= 60) {
+        return showResults({ name: 'ยังไม่พบสายที่ชัดเจน', why: 'คะแนนความสนใจของคุณอยู่ในระดับต่ำเกินไป', focus: 'ลองทำแบบทดสอบอีกครั้งด้วยความตั้งใจครับ', university: '-', careers: '-' });
     }
 
-    let bestKey = null; let maxAvg = -1;
+    // 3. ระบบคำนวณถ่วงน้ำหนักเพื่อความแม่นยำ (The BWS Algorithm)
+    let bestKey = null;
+    let maxMatchScore = -1;
+
     for(let t in tracksData) {
-        let total = 0;
-        tracksData[t].keys.forEach(k => total += scores[k]);
-        let avg = (total / tracksData[t].keys.length) + (Math.random() * 0.1); // แก้บั๊ก tie-breaker
-        if(avg > maxAvg) { maxAvg = avg; bestKey = t; }
+        let currentTrackScore = 0;
+        let keysList = tracksData[t].keys;
+
+        // คะแนนพื้นฐาน
+        keysList.forEach(k => { currentTrackScore += scores[k]; });
+
+        // --- ระบบตัวคูณแยกตามกลุ่มสายการเรียน (แม่นยำพิเศษ) ---
+        
+        // กลุ่มวิทย์-เทคโนโลยี
+        if (t === 'S_EXCEL') currentTrackScore += (scores['science'] * 0.8) + (scores['math'] * 0.5);
+        if (t === 'S_POWER10') currentTrackScore += (scores['science'] * 0.5) + (scores['active'] * 0.5);
+        if (t === 'S_ENG') currentTrackScore += (scores['math'] * 0.6) + (scores['active'] * 0.9);
+        if (t === 'S_HEALTH') currentTrackScore += (scores['science'] * 0.8) + (scores['detail'] * 0.4);
+        if (t === 'G_COM') currentTrackScore += (scores['logic'] * 0.7) + (scores['creative'] * 0.5);
+
+        // กลุ่มบริหาร-บัญชี
+        if (t === 'A_ENG_MATH') currentTrackScore += (scores['lang'] * 0.6) + (scores['math'] * 0.5);
+        if (t === 'A_ACCOUNT') currentTrackScore += (scores['detail'] * 0.9) + (scores['math'] * 0.4);
+
+        // กลุ่มกฎหมาย-สังคม
+        if (t === 'A_LAW') currentTrackScore += (scores['logic'] * 0.8) + (scores['social'] * 0.6);
+        if (t === 'A_POLI') currentTrackScore += (scores['social'] * 0.8) + (scores['lang'] * 0.4);
+
+        // กลุ่มภาษา-การสื่อสาร
+        if (t === 'A_LANG_CN' || t === 'A_LANG_JP') currentTrackScore += (scores['lang'] * 1.0) + (scores['detail'] * 0.3);
+        if (t === 'A_COMM_ART') currentTrackScore += (scores['creative'] * 0.7) + (scores['social'] * 0.6);
+
+        // กลุ่มออกแบบ-ศิลปะ-ดนตรี
+        if (t === 'A_DESIGN') currentTrackScore += (scores['creative'] * 0.8) + (scores['math'] * 0.4);
+        if (t === 'A_FINE_ART') currentTrackScore += (scores['creative'] * 1.0);
+        if (t === 'A_MUSIC') currentTrackScore += (scores['creative'] * 0.8) + (scores['active'] * 0.5);
+
+        // กลุ่มพลศึกษา-ท่องเที่ยว
+        if (t === 'A_SPORTS') currentTrackScore += (scores['active'] * 1.0) + (scores['social'] * 0.3);
+        if (t === 'A_HOSPITALITY') currentTrackScore += (scores['social'] * 0.8) + (scores['lang'] * 0.5);
+
+        // คำนวณค่าสุดท้าย (หาค่าเฉลี่ย + สุ่มเศษทศนิยมกันคะแนนเท่า)
+        let finalMatch = (currentTrackScore / keysList.length) + (Math.random() * 0.05);
+
+        if(finalMatch > maxMatchScore) {
+            maxMatchScore = finalMatch;
+            bestKey = t;
+        }
     }
+
     showResults(tracksData[bestKey]);
 };
 
@@ -106,3 +152,4 @@ function showResults(data) {
     `;
     window.scrollTo(0,0);
 }
+
