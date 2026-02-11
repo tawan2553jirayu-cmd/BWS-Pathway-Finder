@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary: #4834d4;
+    --success: #22a6b3;
+    --bg: #f0f2f5;
+    --card-bg: #ffffff;
+    --text: #2d3436;
+}
+
+body {
+    font-family: 'Prompt', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0; line-height: 1.6;
+}
+
+.progress-bar {
+    position: fixed; top: 0; left: 0; height: 5px;
+    background: linear-gradient(to right, var(--primary), var(--success));
+    width: 0%; transition: 0.3s; z-index: 1000;
+}
+
+header {
+    background: var(--primary); color: white;
+    padding: 60px 20px; text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+}
+
+.container { max-width: 800px; margin: -50px auto 50px; padding: 0 20px; }
+
+.card {
+    background: var(--card-bg); padding: 40px;
+    border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    display: none; transform: translateY(20px); transition: 0.5s;
+}
+
+.card.active { display: block; transform: translateY(0); }
+
+.input-group label { display: block; margin-bottom: 10px; font-weight: 600; }
+
+input[type="text"] {
+    width: 100%; padding: 15px; border: 2px solid #ddd;
+    border-radius: 10px; font-family: inherit; font-size: 1rem;
+    box-sizing: border-box; margin-bottom: 20px;
+}
+
+.question-item { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+
+.options-group { display: flex; justify-content: space-between; gap: 10px; margin-top: 15px; }
+
+.option-label {
+    flex: 1; padding: 15px 5px; border: 2px solid #eee;
+    border-radius: 10px; cursor: pointer; text-align: center;
+    font-size: 0.85rem; transition: 0.2s;
+}
+
+input[type="radio"] { display: none; }
+
+input[type="radio"]:checked + .option-label {
+    background: var(--primary); color: white; border-color: var(--primary);
+}
+
+button {
+    width: 100%; padding: 18px; border: none; border-radius: 12px;
+    font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-success { background: var(--success); color: white; }
+.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+button:hover { opacity: 0.9; transform: scale(0.98); }
+
+/* Result Details Styling */
+.res-box { background: #f8f9fa; padding: 20px; border-radius: 15px; margin-top: 15px; border-left: 5px solid var(--primary); }
+.res-box h4 { margin-top: 0; color: var(--primary); }
